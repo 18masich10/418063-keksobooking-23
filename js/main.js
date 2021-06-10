@@ -22,6 +22,10 @@ function getRandomFractional(minimum, maximum, numberAfterPoint) {
   minimum = Math.ceil(minimum);
   maximum = Math.floor(maximum);
 
+  if (max <= min || max < 0 || min < 0) {
+    return null;
+  }
+
   return Number((Math.random() * (maximum - minimum + 1) + minimum).toFixed(numberAfterPoint));
 }
 
