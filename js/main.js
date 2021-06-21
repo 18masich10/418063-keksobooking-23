@@ -1,8 +1,4 @@
 // eslint-disable-next-line no-unused-vars
-const AUTHOR = {
-  avatar: 'url("img/avatars/user{{xx}}.png")',
-};
-// eslint-disable-next-line no-unused-vars
 const OFFER_TYPES = [
   'palace',
   'flat',
@@ -31,7 +27,6 @@ const OFFER_FEATURES = [
   'elevator',
   'conditioner',
 ];
-
 const SIMILAR_ADVERT_COUNT = 10;
 // eslint-disable-next-line no-unused-vars
 const OFFER_PHOTOS = [
@@ -41,10 +36,13 @@ const OFFER_PHOTOS = [
 ];
 
 // Функция по поиску случайного элемента в переданном массиве.
-const getRandomArrayElement = (elements) => elements[_.random(0, elements.length - 1)];
+const getRandomArrayElement = (array) => {
+  const randomIndex = Math.floor(Math.random() * array.length - 1);
+  return array[randomIndex];
+};
 
 // Функция по поиску случайного целого положительного числа в заданном диапазоне.
-function getRandomNumber(min, max) {
+const getRandomNumber = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
 
@@ -52,34 +50,40 @@ function getRandomNumber(min, max) {
     return null;
   }
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-getRandomNumber();
+};
+
+// Функция по поиску массива случайной длины из переданных значений.
+const getRandomArray = (array) => {
+  const newRandomArray = array.slice().sort(() => Math.random() - 0.5);
+  return newRandomArray.slice(0, getRandomNumber(1, newRandomArray.length - 1));
+};
 
 // Функция по поиску случайного целого положительного числа в заданном диапазоне (обязательное условие - перед однозначными числами ставится 0)
-function getRandomAvatar(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-
+const getRandomAvatar = (min, max) => {
   if (max <= min || max < 0 || min < 0) {
     return null;
   }
-  const avatarUserNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  const avatarUserNumber = Math.floor(Math.random() * (max - min)) + min;
 
   if (min < 10) {
-    return `img/avatars/user0 ${avatarUserNumber}.png`;
+    return `img/avatars/user/0${avatarUserNumber}.png`;
   }
-}
-getRandomAvatar();
+};
 
 // Функция по поиску случайного целого положительного числа в заданном диапазоне с плавающей точкой.
-function getRandomСoordinates(min, max, numberAfterPoint) {
+const getRandomCoordinates = (min, max, numberAfterPoint) => {
   if (max <= min || max < 0 || min < 0) {
     return null;
   }
-  const randomCoordinates = Number((Math.random() * (max - min + 0.01) + min).toFixed(numberAfterPoint));
+  const randomCoordinates = Number((Math.random() * (max - min) + min).toFixed(numberAfterPoint));
   return randomCoordinates;
-}
-getRandomСoordinates();
+};
+
+// eslint-disable-next-line no-unused-vars
+const LOCATION = {
+  lat: getRandomCoordinates(35.65000, 35.70000, 5),
+  lng: getRandomCoordinates(139.7000, 139.8000, 5),
+};
 
 // eslint-disable-next-line no-unused-vars
 const createAd = () => ({
@@ -88,21 +92,18 @@ const createAd = () => ({
   },
   offer: {
     title: 'Unique accommodation for you!', // Уникальное жилье для вас!
-    address: `lat: ${getRandomСoordinates(35.65000, 35.70000, 5)}, lng: ${getRandomСoordinates(139.70000, 139.80000, 5)}`,
+    address: `${LOCATION.lat},${LOCATION.lng}`,
     price: getRandomNumber(500, 5000),
     type: getRandomArrayElement(OFFER_TYPES),
     rooms: getRandomNumber(1, 4),
     guests: getRandomNumber(1, 8),
     checkin: getRandomArrayElement(OFFER_CHECKING),
     checkout: getRandomArrayElement(OFFER_CHECKOUT),
-    features: getRandomArrayElement(OFFER_FEATURES),
+    features: getRandomArray(OFFER_FEATURES),
     description: 'Cozy housing at an affordable price is completely at your disposal!', // Уютное жильё по доступной цене полностью в вашем распоряжении!
-    photos: getRandomArrayElement(OFFER_PHOTOS),
+    photos: getRandomArray(OFFER_PHOTOS),
   },
-  location: {
-    lat: getRandomСoordinates(35.65000, 35.70000, 5),
-    lng: getRandomСoordinates(139.70000, 139.80000, 5),
-  },
+  location: LOCATION,
 });
 
 // eslint-disable-next-line no-unused-vars
