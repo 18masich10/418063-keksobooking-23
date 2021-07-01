@@ -69,4 +69,4 @@ const createAd = () => {
 // eslint-disable-next-line no-unused-vars
 const similarAd = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAd());
 
-export {SIMILAR_ADVERT_COUNT,createAd};
+export {similarAd};
